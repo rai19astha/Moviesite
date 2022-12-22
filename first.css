@@ -1,0 +1,154 @@
+*{
+    margin:0;
+}
+
+
+div.searchbar{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    background-color: #ffffff;
+    margin:15px;
+}
+
+
+div.logo{
+    display:flex;
+    width:242.7px;
+    background-color: #ffffff;
+    justify-content:center;
+    align-items: center;
+    border-right:1px solid #D4DADF;
+}
+
+
+h2{
+    background-color: #ffffff; 
+}
+
+
+div.bar{
+    width:242.7px;
+    border-left:1px solid #D4DADF;
+    text-align:end;
+    box-sizing: border-box;
+}
+
+
+input.searching{
+    width:230px;
+    height:32.42px;
+    border-style: none;
+    font-size:20px;
+}
+
+
+.body{
+    display:flex;
+    background-color:#F5F7F9;
+}
+
+
+.navigation{
+  
+    margin:13px;
+    min-width:242.7px;
+    border-right:1px solid #D4DADF;
+ 
+  
+}
+
+
+ul{
+   text-align:left;
+    list-style-type: none;
+}
+
+
+li{
+    padding-top:12px;
+    padding-bottom:12px;
+    padding-left:24px;
+    margin-bottom:10px;
+    font-size:22px; 
+    cursor: pointer;
+}
+
+
+li.result{
+    background-color: #ffffff;
+     margin-top:20px;
+}
+
+
+.searchresults{
+    border-style: none;
+    font-size:22px;
+    width:175px;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+
+li.add{
+    margin-bottom:100px;
+    margin-top:170px;
+ 
+}
+
+
+button{
+    cursor: pointer;
+    background-color: black;
+    padding:4px 20px 4px 20px;
+    color:white;
+    border-radius: 4px;
+    font-size:22px;
+  
+}
+
+
+.movies{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.card{
+    flex-basis:260px;
+    min-width:260px;
+    height:360px;
+    display:flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    margin:10px;
+    flex-wrap:wrap;
+    cursor: pointer;
+    
+}
+
+
+.card:hover{
+    box-shadow:3px 3px 3px 3px #252627;
+}
+
+
+.none{
+    display:none;
+}
+
+
+.image{
+    max-width:260px;
+    max-height:281px;
+}
+
+
+.title{
+    text-decoration:underline ;
+    font-weight: 600;
+    text-align: center;
+}
