@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+body{
+    background-color: #BDC9C8;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:3vw;
+    background-color: #151E28;
+    padding: 0 20px;
+  }
+  
+  
+  .navbar h1 {
+    color: #FFF;
+    text-align: center;
+    font-family: 'arial-black';
+    font-size: 2vw;
+    margin-left:2vw;
+    text-decoration: none;
+  }
+  
+  .nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links li {
+    margin: 0 10px;
+  }
+  
+  .nav-links a {
+    color: #FFF;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .nav-links a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+
+  .placeholder {
+    margin: 2vw;
+    margin-bottom: 0;
+    margin-left:3.3vw;
+  }
+  
+ 
+  input {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: medium;
+    color: #FFF;
+    background-color: #151E28;
+    width: 90vw;
+  }
+
+  input::placeholder {
+    color: white; /* Set placeholder text color to white */
+  }
+
+  .dropdown{
+    margin: 1vw;
+    margin-left:3.3vw;
+    font-size: medium;
+    width:90vw;
+    background-color: #151E28;
+    color: #FFF;
+  }
+.btn1{
+    font-size: medium;
+    background-color: #151E28;
+    color: #FFF;
+    border:2px;
+    padding: 10px;
+    float: right;
+    margin-top: 1vw;
+    margin-right: 6.8vw;
+    border-radius: 5px;
+}
+.btn1afterclick{
+    font-size: medium;
+    background-color: #151E28;
+    color: #FFF;
+    border:2px;
+    padding: 10px;
+    float: right;
+    margin-top: 5vw;
+    margin-right: 6.8vw;
+    border-radius: 5px;
+}
+
+.table-container{
+    background-color: #151E28;
+    max-width: 15vw;
+    margin-left: 8vw;
+    margin-top:3.5vw;
+    max-height: 14.73vw;
+    overflow: auto;
+}
+.table-container::-webkit-scrollbar {
+    display: none;
+  }
+.table-container table {
+    width: 100%;
+    border: 1px solid #FFF;
+  }
+  .table-container th, .table-container td {
+    padding: 3px;
+    text-align: center;
+    font-size: medium;
+    color: #FFF;
+    border: 1px solid #FFF; 
+    background-color: #151E28;
+  } 
+
+  
