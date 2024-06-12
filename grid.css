@@ -1,0 +1,136 @@
+body {
+    background-color: #BDC9C8;
+    font-family: Arial, sans-serif;
+}
+
+.grid {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #F3F3F3;
+}
+
+.grid-view {
+    overflow-x: scroll;
+}
+
+.header-row {
+    background-color: #151E28;
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px solid #CCC;
+    
+}
+
+.header-cell {
+    padding: 10px;
+    text-align: center;
+    border-right: 1px solid #CCC;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.header-cell:last-child {
+    border-right: none;
+}
+
+.data-row {
+    border-bottom: 1px solid #CCC;
+}
+
+.header-row .header-cell {
+    color: #fff;
+    font-weight: bold;
+}
+
+.even-row {
+    background-color: #f9f9f9;
+}
+
+.odd-row {
+    background-color: #fff;
+}
+.grid-view {
+    overflow-x: auto;
+}
+
+.header-row, .data-row {
+    display: flex;
+    min-width: 1000px; /* Adjust this to fit your needs */
+}
+
+.header-cell, .data-cell {
+    flex: 1 0 150px; /* Adjust the width as necessary */
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center; /* Center text alignment */
+}
+
+.data-cell {
+    padding: 10px;
+    text-align: center;
+    border-right: 1px solid #CCC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.data-cell:last-child {
+    border-right: none;
+}
+
+.copy-icon {
+    margin-left: 10px;
+}
+
+.action-button {
+    background-color: #005EB8;
+    color: white;
+}
+
+.action-button:hover {
+    background-color: #004B94;
+}
+
+.nav-tabspanel {
+    display: flex;
+    justify-content: space-between;
+    overflow-x: auto;
+}
+
+.nav-tab {
+    background-color: #F3F3F3;
+    color: #151E28;
+    padding: 10px;
+    margin-right: 0.2vw;
+    margin-bottom: 0.1vw;
+}
+
+.export-buttons {
+    display: flex;
+    align-items: center;
+    float: right;
+}
+
+.export-buttons Button {
+    background-color: #151E28;
+    margin-right: 0.2vw;
+    margin-bottom: 0.1vw;
+}
+
+.pagination Button {
+    background-color: #151E28;
+    margin-right: 0.2vw;
+    margin-top: 0.5vw;
+}
+
+.pagination {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
