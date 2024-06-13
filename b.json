@@ -1,0 +1,17 @@
+{
+    "databaseSettings": {
+        "userId": "thoruat3",
+        "dataSource": "SYSTHORUAT3",
+        "password": "151Eax9l+KfKfeoENJEesA==",
+        "controlDbUserId": "THORCONTROLUAT3",
+        "controlDbDataSource": "SYSTHORUAT3",
+        "controlDbPassword": "huu/3+/DUMdJLvUuPDo82g==",
+        "pooling": true,
+        "connectionLifetime": 60,
+        "connectionTimeout": 15,
+        "minPoolSize": 1,
+        "maxPoolSize": 20,
+        "incrPoolSize": 3,
+        "decrPoolSize": 1
+    }
+}
