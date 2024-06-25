@@ -1,38 +1,27 @@
-import React, { useState, useEffect } from 'react';
+// DataContext.js
+import React, { createContext, useState, useEffect } from 'react';
 
-const FetchDataExample = () => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export const DataContext = createContext();
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch('https://api.example.com/data'); // Replace with your API endpoint
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+export const DataProvider = ({ children }) => {
+  const [data, setData] = useState([]);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  useEffect(() => {
+    // Load data from localStorage when the component mounts
+    const savedData = localStorage.getItem('homePageData');
+    if (savedData) {
+      setData(JSON.parse(savedData));
+    }
+  }, []);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+  useEffect(() => {
+    // Save data to localStorage whenever it changes
+    localStorage.setItem('homePageData', JSON.stringify(data));
+  }, [data]);
 
-    return (
-        <div>
-            <h1>Fetched Data</h1>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-    );
+  return (
+    <DataContext.Provider value={{ data, setData }}>
+      {children}
+    </DataContext.Provider>
+  );
 };
-
-export default FetchDataExample;
