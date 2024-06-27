@@ -1,0 +1,88 @@
+If you want to deploy a React app through TeamCity using Bitbucket without Docker, you'll focus on setting up build, publish, and release steps in TeamCity. Here's how you can do it:
+
+### Prerequisites:
+1. **TeamCity** server set up.
+2. **Bitbucket** repository containing the React app code.
+3. **TeamCity Bitbucket plugin** configured.
+4. A server or hosting service where the built React app will be deployed.
+
+### Steps:
+
+#### 1. **Create a New Project in TeamCity:**
+- Go to your TeamCity dashboard.
+- Click on **"Projects"** and then **"Create Project"**.
+- Select **"From a repository URL"** and enter your Bitbucket repository URL.
+
+#### 2. **Set Up VCS Root:**
+- Configure the VCS root to connect to your Bitbucket repository.
+- Enter the repository URL, branch, and authentication details.
+
+#### 3. **Create Build Configuration:**
+- Within your new project, click on **"Create build configuration"**.
+
+#### 4. **Configure Build Steps:**
+
+**Step 1: Install Dependencies**
+- Add a build step.
+- Choose **"npm"** as the runner type.
+- Set the command to **"install"**.
+
+**Step 2: Build the React App**
+- Add another build step.
+- Choose **"npm"** as the runner type.
+- Set the command to **"run"** and provide the build script name (usually "build").
+
+**Step 3: Publish Artifacts**
+- Configure artifact paths to publish the build output (usually `build/**` if your output directory is `build`).
+
+#### 5. **Configure Deployment Step:**
+
+This step depends on where you are hosting your React app. Here are a few common scenarios:
+
+**Deploy to an FTP Server:**
+- Add a new build step.
+- Choose **"FTP upload"** as the runner type.
+- Configure the FTP server details, including the target path and credentials.
+
+**Deploy to a Remote Server via SCP:**
+- Add a new build step.
+- Choose **"SCP"** as the runner type.
+- Configure the SCP details, including the target path and credentials.
+
+**Deploy to AWS S3:**
+- Add a new build step.
+- Choose **"S3"** as the runner type.
+- Configure the AWS S3 bucket details, including the bucket name and credentials.
+
+#### 6. **Configure Build Triggers:**
+- Set up build triggers to automatically start a new build when changes are pushed to the Bitbucket repository.
+- Go to the **"Triggers"** tab in the build configuration.
+- Add a **"VCS Trigger"** and configure it according to your requirements.
+
+#### 7. **Run and Test:**
+- Run the build configuration manually to test the setup.
+- Check the build logs for any errors and resolve them.
+- Verify that the build artifacts are correctly published and deployed to your server.
+
+### Example Configuration:
+
+Here’s a brief overview of what the build configuration might look like:
+
+1. **Install Dependencies:**
+   - Runner Type: npm
+   - Command: install
+
+2. **Build the React App:**
+   - Runner Type: npm
+   - Command: run
+   - Arguments: build
+
+3. **Publish Artifacts:**
+   - Artifact paths: `build/**`
+
+4. **Deploy to Server:**
+   - Runner Type: FTP upload (or SCP, S3, etc., depending on your deployment target)
+   - Configure the target server and path
+
+### Conclusion:
+By setting up these steps in TeamCity, you can automate the process of building, publishing, and deploying your React app whenever changes are pushed to your Bitbucket repository. Make sure to test the entire process thoroughly to ensure smooth deployment.
