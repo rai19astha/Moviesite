@@ -1,27 +1,16 @@
-// DataContext.js
-import React, { createContext, useState, useEffect } from 'react';
+const express = require('express');
+const path = require('path');
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-export const DataContext = createContext();
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
 
-export const DataProvider = ({ children }) => {
-  const [data, setData] = useState([]);
+// Handles any requests that don't match the ones above
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
-  useEffect(() => {
-    // Load data from localStorage when the component mounts
-    const savedData = localStorage.getItem('homePageData');
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    }
-  }, []);
-
-  useEffect(() => {
-    // Save data to localStorage whenever it changes
-    localStorage.setItem('homePageData', JSON.stringify(data));
-  }, [data]);
-
-  return (
-    <DataContext.Provider value={{ data, setData }}>
-      {children}
-    </DataContext.Provider>
-  );
-};
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
