@@ -9,30 +9,26 @@ namespace ThorPriceWebAPI.App_Start
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (request.Headers.Contains("Origin"))
+            if (request.Method == HttpMethod.Options)
             {
-                var response = base.SendAsync(request, cancellationToken);
-
-                response.Result.Headers.Add("Access-Control-Allow-Origin", "*");
-                response.Result.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                response.Result.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-
-                if (request.Method == HttpMethod.Options)
-                {
-                    return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Headers = {
-                            { "Access-Control-Allow-Origin", "*" },
-                            { "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" },
-                            { "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS" }
-                        }
-                    });
-                }
-
-                return response;
+                var response = new HttpResponseMessage(HttpStatusCode.OK);
+                response.Headers.Add("Access-Control-Allow-Origin", "*");
+                response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+                return Task.FromResult(response);
             }
 
-            return base.SendAsync(request, cancellationToken);
+            return base.SendAsync(request, cancellationToken).ContinueWith(task =>
+            {
+                var response = task.Result;
+                if (request.Headers.Contains("Origin"))
+                {
+                    response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                    response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+                }
+                return response;
+            }, cancellationToken);
         }
     }
 }
