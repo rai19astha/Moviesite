@@ -1,26 +1,38 @@
-<configuration>
-  <system.webServer>
-    <rewrite>
-      <rules>
-        <!-- Redirect API calls to the backend server -->
-        <rule name="API Proxy" stopProcessing="true">
-          <match url="^api/(.*)" />
-          <action type="Rewrite" url="https://your-production-api-server.com/api/{R:1}" />
-        </rule>
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
-        <!-- Handle React routing (serves index.html for all other requests) -->
-        <rule name="React Routes" stopProcessing="true">
-          <match url=".*" />
-          <conditions logicalGrouping="MatchAll">
-            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
-            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
-          </conditions>
-          <action type="Rewrite" url="/" />
-        </rule>
-      </rules>
-    </rewrite>
-    <staticContent>
-      <mimeMap fileExtension=".json" mimeType="application/json" />
-    </staticContent>
-  </system.webServer>
-</configuration>
+namespace ThorPriceWebAPI.App_Start
+{
+    public class CorsMessageHandler : DelegatingHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            if (request.Headers.Contains("Origin"))
+            {
+                var response = base.SendAsync(request, cancellationToken);
+
+                response.Result.Headers.Add("Access-Control-Allow-Origin", "*");
+                response.Result.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                response.Result.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+
+                if (request.Method == HttpMethod.Options)
+                {
+                    return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Headers = {
+                            { "Access-Control-Allow-Origin", "*" },
+                            { "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" },
+                            { "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS" }
+                        }
+                    });
+                }
+
+                return response;
+            }
+
+            return base.SendAsync(request, cancellationToken);
+        }
+    }
+}
