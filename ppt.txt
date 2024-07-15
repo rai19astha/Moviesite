@@ -1,107 +1,217 @@
-Here's a structured presentation outline based on your requirements:
+#pragma once
 
----
+#include <stdio.h>
+#include <mutex>
+#include <ctime>
+#include <Windows.h> // Include Windows API header
 
-### **Executive Summary**
+enum LogPriority
+{
+    TracePriority, DebugPriority, InfoPriority, WarnPriority, ErrorPriority, CriticalPriority
+};
 
-- **Name:** [Your Name]
-- **School:** [Your School]
-- **Major:** [Your Major]
-- **Program Name:** Thor PriceBrowser
+class Logger
+{
+private:
+    LogPriority priority = InfoPriority;
+    std::mutex log_mutex;
+    wchar_t* filepath = nullptr;
+    FILE* file = nullptr;
+    bool logging_enabled = true; // Flag to enable or disable logging
 
----
+public:
+    Logger()
+    {
+        // Initialize the log file path and logging enabled flag from registry
+        filepath = L"log.txt"; // Default file path
+        read_registry_settings();
+    }
 
-### **Introduction**
+    static void SetPriority(LogPriority new_priority)
+    {
+        get_instance().priority = new_priority;
+    }
 
-- **Brief Intro:** 
-  - Developed a web utility using React.js for the frontend and C# for the backend to automate the process of providing price data to departments such as ops and consumer.
-  - The tool, named **Thor PriceBrowser**, aims to streamline data retrieval and sharing within the organization.
+    static void EnableFileOutput()
+    {
+        Logger& logger_instance = get_instance();
+        if (logger_instance.logging_enabled)
+        {
+            logger_instance.enable_file_output();
+        }
+    }
 
----
+    static void EnableFileOutput(const wchar_t* new_filepath)
+    {
+        Logger& logger_instance = get_instance();
+        if (logger_instance.logging_enabled)
+        {
+            logger_instance.filepath = _wcsdup(new_filepath);
+            logger_instance.enable_file_output();
+        }
+    }
 
-### **Problem Statement**
+    template<typename... Args>
+    static void Trace(const char* message, Args... args)
+    {
+        get_instance().log("[Trace]\t", TracePriority, message, args...);
+    }
 
-- **Issue:** The need to manually provide price data to various departments was time-consuming and inefficient.
-- **Solution:** Creating a web utility (Thor PriceBrowser) to automate and simplify the process.
+    template<typename... Args>
+    static void Debug(const char* message, Args... args)
+    {
+        get_instance().log("[Debug]\t", DebugPriority, message, args...);
+    }
 
----
+    template<typename... Args>
+    static void Info(const char* message, Args... args)
+    {
+        get_instance().log("[Info]\t", InfoPriority, message, args...);
+    }
 
-### **Project Goals**
+    template<typename... Args>
+    static void Warn(const char* message, Args... args)
+    {
+        get_instance().log("[Warn]\t", WarnPriority, message, args...);
+    }
 
-1. **Dropdown to List All Identifier Types from Thor Database:**
-   - Provide a user-friendly way to select identifiers.
-2. **Enable Multiple Data Source Selection:**
-   - Allow users to select multiple data sources at once for comprehensive data retrieval.
-3. **Handle Exceptions Properly:**
-   - Ensure the application manages errors gracefully, providing meaningful feedback to users.
-4. **User-Friendly UI:**
-   - Develop an intuitive and easy-to-navigate user interface.
-5. **Deploy via TeamCity with Proper Pipelines:**
-   - Automate deployment processes to ensure efficient and reliable updates.
-6. **Documentation of All Processes:**
-   - Maintain thorough documentation for future reference and onboarding.
+    template<typename... Args>
+    static void Error(const char* message, Args... args)
+    {
+        get_instance().log("[Error]\t", ErrorPriority, message, args...);
+    }
 
----
+    template<typename... Args>
+    static void Critical(const char* message, Args... args)
+    {
+        get_instance().log("[Critical]\t", CriticalPriority, message, args...);
+    }
 
-### **Expected Impact**
+private:
+    ~Logger()
+    {
+        free_file();
+    }
 
-- **Efficiency:** 
-  - Significant reduction in the time required to provide data to other departments.
-- **Accuracy:** 
-  - Improved data accuracy through automation.
-- **User Satisfaction:** 
-  - Enhanced user experience with a streamlined and intuitive interface.
+    static Logger& get_instance()
+    {
+        static Logger logger;
+        return logger;
+    }
 
----
+    template<typename... Args>
+    void log(const char* message_priority_str, LogPriority message_priority, const char* message, Args... args)
+    {
+        if (priority <= message_priority && logging_enabled)
+        {
+            std::time_t current_time = std::time(0);
+            std::tm* timestamp = std::localtime(&current_time);
+            char buffer[80];
+            strftime(buffer, 80, "%c", timestamp);
 
-### **Potential Roadmap**
+            std::scoped_lock lock(log_mutex);
+            printf("%s\t", buffer);
+            printf(message_priority_str);
+            printf(message, args...);
+            printf("\n");
 
-1. **Phase 1:** Initial Deployment
-   - Complete initial development and deploy the web utility.
-2. **Phase 2:** User Feedback
-   - Gather feedback from users and make necessary adjustments.
-3. **Phase 3:** Feature Expansion
-   - Add additional features based on user requirements and feedback.
-4. **Phase 4:** Continuous Improvement
-   - Regular updates and improvements to maintain efficiency and user satisfaction.
+            if (file)
+            {
+                fprintf(file, "%s\t", buffer);
+                fprintf(file, message_priority_str);
+                fprintf(file, message, args...);
+                fprintf(file, "\n");
+                fflush(file);  // Ensure the data is written to the file
+            }
+        }
+    }
 
----
+    void enable_file_output()
+    {
+        std::scoped_lock lock(log_mutex);
 
-### **Project Lessons Learned**
+        if (file != nullptr)
+        {
+            fclose(file);
+        }
 
-- **Technical Skills:** 
-  - Advanced understanding of React.js, C#, and automated deployment processes using TeamCity.
-- **Project Management:** 
-  - Importance of thorough documentation and structured project planning.
-- **User-Centric Design:** 
-  - Creating interfaces that meet user needs and enhance their experience.
+        file = _wfopen(filepath, L"w");  // Open the file in write mode
 
----
+        if (file == nullptr)
+        {
+            printf("Logger: Failed to open file at %ls\n", filepath);
+        }
+        else
+        {
+            printf("Logger: Successfully opened file at %ls\n", filepath);
+        }
+    }
 
-### **Personal Skills Acquired While Working at Barclays**
+    void free_file()
+    {
+        std::scoped_lock lock(log_mutex);
 
-- **Collaboration:** 
-  - Working effectively within a team to achieve common goals.
-- **Problem-Solving:** 
-  - Identifying issues and developing practical solutions.
-- **Technical Proficiency:** 
-  - Gaining expertise in web development technologies and deployment tools.
+        if (file != nullptr)
+        {
+            fclose(file);
+            file = nullptr;
+        }
 
----
+        if (filepath != nullptr)
+        {
+            free(filepath);
+            filepath = nullptr;
+        }
+    }
 
-### **Relate Skills and Lessons Learned to Barclays Values**
+    void read_registry_settings()
+    {
+        HKEY hKey;
+        LSTATUS status = RegOpenKeyExW(HKEY_CURRENT_USER, L"SOFTWARE\\MyCompany\\MyProgram", 0, KEY_READ, &hKey);
+        if (status == ERROR_SUCCESS)
+        {
+            // Read LogFilePath
+            wchar_t value[MAX_PATH];
+            DWORD value_length = sizeof(value);
+            DWORD type = REG_SZ;
+            status = RegQueryValueExW(hKey, L"LogFilePath", NULL, &type, reinterpret_cast<BYTE*>(value), &value_length);
+            if (status == ERROR_SUCCESS)
+            {
+                // Set the log file path
+                filepath = _wcsdup(value); // Duplicate the string, as we need to manage the memory ourselves
+                printf("Logger: Log file path set to %ls\n", filepath);
+            }
+            else
+            {
+                printf("Logger: Failed to read LogFilePath registry value\n");
+                // Default file path, if needed
+                filepath = _wcsdup(L"log.txt");
+            }
 
-- **Respect:** 
-  - Valuing team contributions and promoting diversity and inclusion in project development.
-- **Integrity:** 
-  - Ensuring transparency and fairness in project execution and data handling.
-- **Service:** 
-  - Prioritizing user needs and acting with empathy in designing user interfaces.
-- **Excellence:** 
-  - Setting high standards for the project and striving for innovation and positive impact.
-- **Stewardship:** 
-  - Focusing on sustainable practices and improving processes for future use.
+            // Read LoggingEnabled
+            DWORD enabled = 0;
+            value_length = sizeof(enabled);
+            type = REG_DWORD;
+            status = RegQueryValueExW(hKey, L"LoggingEnabled", NULL, &type, reinterpret_cast<BYTE*>(&enabled), &value_length);
+            if (status == ERROR_SUCCESS)
+            {
+                logging_enabled = (enabled != 0);
+                printf("Logger: Logging enabled set to %s\n", logging_enabled ? "true" : "false");
+            }
+            else
+            {
+                printf("Logger: Failed to read LoggingEnabled registry value\n");
+                logging_enabled = true; // Default to true
+            }
 
----
-
-This structure will help you create a comprehensive presentation covering all aspects of your project and aligning it with Barclays' values.
+            RegCloseKey(hKey);
+        }
+        else
+        {
+            printf("Logger: Failed to open registry key\n");
+            // Default values, if needed
+            filepath = _wcsdup(L"log.txt");
+            logging_enabled = true;
+        }
+    }
+};
