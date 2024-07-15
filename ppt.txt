@@ -1,0 +1,107 @@
+Here's a structured presentation outline based on your requirements:
+
+---
+
+### **Executive Summary**
+
+- **Name:** [Your Name]
+- **School:** [Your School]
+- **Major:** [Your Major]
+- **Program Name:** Thor PriceBrowser
+
+---
+
+### **Introduction**
+
+- **Brief Intro:** 
+  - Developed a web utility using React.js for the frontend and C# for the backend to automate the process of providing price data to departments such as ops and consumer.
+  - The tool, named **Thor PriceBrowser**, aims to streamline data retrieval and sharing within the organization.
+
+---
+
+### **Problem Statement**
+
+- **Issue:** The need to manually provide price data to various departments was time-consuming and inefficient.
+- **Solution:** Creating a web utility (Thor PriceBrowser) to automate and simplify the process.
+
+---
+
+### **Project Goals**
+
+1. **Dropdown to List All Identifier Types from Thor Database:**
+   - Provide a user-friendly way to select identifiers.
+2. **Enable Multiple Data Source Selection:**
+   - Allow users to select multiple data sources at once for comprehensive data retrieval.
+3. **Handle Exceptions Properly:**
+   - Ensure the application manages errors gracefully, providing meaningful feedback to users.
+4. **User-Friendly UI:**
+   - Develop an intuitive and easy-to-navigate user interface.
+5. **Deploy via TeamCity with Proper Pipelines:**
+   - Automate deployment processes to ensure efficient and reliable updates.
+6. **Documentation of All Processes:**
+   - Maintain thorough documentation for future reference and onboarding.
+
+---
+
+### **Expected Impact**
+
+- **Efficiency:** 
+  - Significant reduction in the time required to provide data to other departments.
+- **Accuracy:** 
+  - Improved data accuracy through automation.
+- **User Satisfaction:** 
+  - Enhanced user experience with a streamlined and intuitive interface.
+
+---
+
+### **Potential Roadmap**
+
+1. **Phase 1:** Initial Deployment
+   - Complete initial development and deploy the web utility.
+2. **Phase 2:** User Feedback
+   - Gather feedback from users and make necessary adjustments.
+3. **Phase 3:** Feature Expansion
+   - Add additional features based on user requirements and feedback.
+4. **Phase 4:** Continuous Improvement
+   - Regular updates and improvements to maintain efficiency and user satisfaction.
+
+---
+
+### **Project Lessons Learned**
+
+- **Technical Skills:** 
+  - Advanced understanding of React.js, C#, and automated deployment processes using TeamCity.
+- **Project Management:** 
+  - Importance of thorough documentation and structured project planning.
+- **User-Centric Design:** 
+  - Creating interfaces that meet user needs and enhance their experience.
+
+---
+
+### **Personal Skills Acquired While Working at Barclays**
+
+- **Collaboration:** 
+  - Working effectively within a team to achieve common goals.
+- **Problem-Solving:** 
+  - Identifying issues and developing practical solutions.
+- **Technical Proficiency:** 
+  - Gaining expertise in web development technologies and deployment tools.
+
+---
+
+### **Relate Skills and Lessons Learned to Barclays Values**
+
+- **Respect:** 
+  - Valuing team contributions and promoting diversity and inclusion in project development.
+- **Integrity:** 
+  - Ensuring transparency and fairness in project execution and data handling.
+- **Service:** 
+  - Prioritizing user needs and acting with empathy in designing user interfaces.
+- **Excellence:** 
+  - Setting high standards for the project and striving for innovation and positive impact.
+- **Stewardship:** 
+  - Focusing on sustainable practices and improving processes for future use.
+
+---
+
+This structure will help you create a comprehensive presentation covering all aspects of your project and aligning it with Barclays' values.
